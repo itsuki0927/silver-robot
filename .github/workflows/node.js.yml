@@ -18,3 +18,4 @@ jobs:
         cache: 'yarn'
     - run: yarn # 运行 yarn 
     - run: yarn build # 运行 yarn build
+    - run: ls -a # 查看打包后的目录文件 
