@@ -23,5 +23,5 @@ jobs:
     - name: Run build 
       run: yarn build # 运行 yarn build
 
-    - name: view directory files
+    - name: View directory files
       run: ls -a # 查看打包后的目录文件
