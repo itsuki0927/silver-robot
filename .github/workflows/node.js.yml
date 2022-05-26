@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3 # git 克隆到当前机器上
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v3 # 设置node环境
       with:
-        node-version: 16.x
+        node-version: 16.x # 指定版本
         cache: 'yarn'
-    - run: yarn global add @vue/cli # 全局安装@vue/cli
-    - run: vue -V # 查看版本
+    - run: yarn # 运行 yarn 
+    - run: yarn build # 运行 yarn build
