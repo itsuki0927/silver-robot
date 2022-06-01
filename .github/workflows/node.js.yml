@@ -25,3 +25,45 @@ jobs:
 
     - name: View directory files
       run: ls -a # 查看打包后的目录文件
+
+    - name: Rename build folder 
+      run: mv .next build # 重命名.next成build
+    - uses: appleboy/scp-action@master # 使用scp-action进行文件上传
+      with:
+        host: ${{ secrets.HOST }} # 服务器host
+        username: ${{ secrets.USER }} # 服务器用户名
+        password: ${{ secrets.PASSWORD }} # 服务器密码
+        source: 'build,package.json,public' # 需要上传的文件
+        target: '~/demo' # 上传到服务器的什么位置
+
+    - name: Run Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        command_timeout: 4m
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        password: ${{ secrets.PASSWORD }}
+        script: | # 运行多行命令
+          echo "[deploy] start deployment..."
+          # 进到当前文件夹
+          cd ~/demo
+
+          # 停止服务
+          pm2 stop demo
+          pm2 delete demo
+
+          # 删除之前的文件
+          rm -rf .next
+          rm -rf node_modules
+
+          # 将上传的文件的文件进行重命名 build -> .next
+          mv build .next
+
+          # 安装依赖
+          yarn --prod
+
+          # 启动服务
+          yarn pm2
+
+          echo "[deploy] end deployment..."
+          echo "[deploy] success"

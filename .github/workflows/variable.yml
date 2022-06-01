@@ -1,7 +1,7 @@
 name: Greeting on variable day
 
 on:
-  workflow_dispatch
+  workflow_dispatch # 手动触发工作流
 
 env:
   DAY_OF_WEEK: Monday
